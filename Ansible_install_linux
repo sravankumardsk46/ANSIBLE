@@ -1,0 +1,11 @@
+ yum update
+ useradd ansadmin
+passwd ansadmin
+vi /etc/sudoers
+ vi /etc/ssh/sshd_config
+systemctl restart sshd
+ su - ansadmin
+ ssh-keygen
+cd .ssh
+ ls -lrt
+ ssh-copy-id ansadmin@172.31.11.24
