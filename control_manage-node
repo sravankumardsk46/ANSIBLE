@@ -1,0 +1,8 @@
+#Control Node (Where you run Ansible commands)
+sudo yum install python3 -y
+sudo yum install python3-pip -y
+pip3 install ansible
+ansible --version
+sudo useradd ansadmin
+sudo passwd ansadmin
+
