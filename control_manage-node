@@ -1,8 +1,57 @@
-#Control Node (Where you run Ansible commands)
+#Control Node (Where you run Ansible commands)###############################
 sudo yum install python3 -y
 sudo yum install python3-pip -y
 pip3 install ansible
 ansible --version
 sudo useradd ansadmin
 sudo passwd ansadmin
+echo "ansadmin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+su - ansadmin
+ssh-keygen -t rsa -b 4096 -C "ansadmin@controller"
+sudo mkdir -p /etc/ansible
+sudo vi /etc/ansible/hosts
+[control]
+172.31.7.124 ansible_user=ansadmin
+
+[managed]
+172.31.0.5 ansible_user=ansadmin
+######################
+ansible all -m ping
+#######################
+#Managed Node (The nodes you want to manage with Ansible)#######################
+sudo useradd ansadmin
+sudo passwd ansadmin
+echo "ansadmin ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+sudo yum install python3 -y
+ssh-copy-id ansadmin@<managed-node-IP>
+------------------
+What Happens:
+The ssh-copy-id command will attempt to connect to the managed node (via SSH) using the ansadmin user.
+It will then copy the public SSH key (/home/ansadmin/.ssh/id_rsa.pub) from the Control Node to the Managed Node and add it to the authorized_keys file of the ansadmin user on the Managed Node.
+-------------------------
+ssh ansadmin@<managed-node-IP>
+ssh-copy-id ansadmin@172.31.0.5
+################################################### .ssh and autentication_key permition both servers
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+chown -R ansadmin:ansadmin ~/.ssh
+####################################################
+ansible all -m ping
+#################################   Control Node,  ########################
+sudo yum install python3 python3-pip -y
+sudo pip3 install ansible
+ansible --version
+##################################  Managed Node  #########################
+sudo yum install python3 python3-pip -y
+sudo pip3 install ansible
+ansible --version
+------------
+Control Node:--------
+ansible all -m ping
+ls -l /home/ansadmin/.ssh
+cat /home/ansadmin/.ssh/id_rsa.pub >> /home/ansadmin/.ssh/authorized_keys
+#######################################################
+sudo mkdir -p /etc/ansible
+sudo vi /etc/ansible/hosts
+#############################################
 
