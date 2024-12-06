@@ -57,3 +57,31 @@ become_user = root
 ansible clients -m ping
 ansible-config dump
 ansible-config view
+##################################################  ansible.cfg file create deatailes ############################3
+find / -name ansible.cfg 2>/dev/null
+
+Current working directory (./ansible.cfg).
+Home directory (~/.ansible.cfg).
+System-wide configuration (/etc/ansible/ansible.cfg).
+
+sudo cat /etc/ansible/ansible.cfg
+
+locate ansible.cfg
+
+
+# if not carete ansible.cfg
+ansible-config init --disabled > ansible.cfg
+vi ansible.cfg
+[defaults]
+inventory = /etc/ansible/hosts
+remote_tmp = ~/.ansible/tmp
+interpreter_python = /usr/bin/python3     #### this is imp  ####
+# move ansible.cfg
+#all user
+sudo mv ansible.cfg /etc/ansible/ansible.cfg
+# current user
+mv ansible.cfg ~/.ansible.cfg
+ansible --version
+Config file = /path/to/ansible.cfg
+
+
